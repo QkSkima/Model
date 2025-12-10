@@ -1,7 +1,7 @@
 {
     "name": "qkskima/model",
     "type": "typo3-cms-extension",
-    "description": "A lightweight model layer providing BaseModel and BaseRepository classes that add validation and business rule guards to plain PHP classes. Validation rules are defined declaratively using PHP attributes, enabling clean and minimal domain modeling without Extbase or heavy frameworks.",
+    "description": "A lightweight model layer for TYPO3 CMS providing BaseModel and BaseRepository classes that add validation and business rule guards to plain PHP classes. Validation rules are defined declaratively using PHP attributes, enabling clean and minimal domain modeling without Extbase or heavy frameworks.",
     "homepage": "https://www.qkskima.com",
     "authors": [
         {
