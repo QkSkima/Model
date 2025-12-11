@@ -1,7 +1,7 @@
 {
     "name": "qkskima/model",
     "type": "typo3-cms-extension",
-    "description": "A lightweight model layer for TYPO3 CMS providing BaseModel and BaseRepository classes that add validation and business rule guards to plain PHP classes. Validation rules are defined declaratively using PHP attributes, enabling clean and minimal domain modeling without Extbase or heavy frameworks.",
+    "description": "A lean but powerful DSL-based model system for TYPO3 with Symfony validation, property access, nested relations, and business rule validation. QkSkima Model is an alternative approach, when you think Extbase is too heavy for the job.",
     "homepage": "https://www.qkskima.com",
     "authors": [
         {
@@ -22,11 +22,15 @@
         "guard",
         "lightweight",
         "DDD",
-        "typo3"
+        "typo3",
+        "extbase",
+        "crud"
     ],
     "require": {
         "php": ">=8.1",
-        "typo3/cms-core": "^13.4 || ^14.0"
+        "typo3/cms-core": "^13.4 || ^14.0",
+		"symfony/property-access": "^7.4",
+		"symfony/validator": "^7.4"
     },
     "autoload": {
         "psr-4": {

@@ -2,7 +2,7 @@
 
 $EM_CONF[$_EXTKEY] = [
     'title' => 'QkSkima Model',
-    'description' => 'A lightweight model layer for TYPO3 CMS providing BaseModel and BaseRepository classes that add validation and business rule guards to plain PHP classes. Validation rules are defined declaratively using PHP attributes, enabling clean and minimal domain modeling without Extbase or heavy frameworks.',
+    'description' => 'A lean but powerful DSL-based model system for TYPO3 with Symfony validation, property access, nested relations, and business rule validation. QkSkima Model is an alternative approach, when you think Extbase is too heavy for the job.',
     'category' => 'fe',
     'constraints' => [
         'depends' => [
