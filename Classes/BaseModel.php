@@ -79,7 +79,6 @@ abstract class BaseModel
      */
     public function hydrate(array $data): void
     {
-        $accessor = $this->getPropertyAccessor();
         $relations = $this->getRelations();
         
         foreach ($data as $key => $value) {
@@ -96,8 +95,13 @@ abstract class BaseModel
                         }
                     }
                     $this->setProperty($key, $relationInstances);
-                } elseif ($relationType === 'one' && is_array($value)) {
-                    $this->setProperty($key, $relationClass::fromArray($value));
+                } elseif ($relationType === 'one') {
+                    if (!\is_numeric($value)) {
+                        // Throwable...
+                    }
+                    $this->setProperty($key, $value);
+                } else {
+                    // Throwable here.
                 }
             } else {
                 // Regular property
@@ -143,6 +147,7 @@ abstract class BaseModel
      */
     protected function validateRelations(): void
     {
+        // Resolve models at database level.
         $relations = $this->getRelations();
         $accessor = $this->getPropertyAccessor();
         
@@ -161,11 +166,7 @@ abstract class BaseModel
                         }
                     }
                 } elseif ($value instanceof BaseModel) {
-                    if (!$value->validate()) {
-                        foreach ($value->getErrors() as $field => $messages) {
-                            $this->errors["{$property}.{$field}"] = $messages;
-                        }
-                    }
+                    // Throwable. Simple relations are not validatable.
                 }
             }
         }
@@ -219,6 +220,8 @@ abstract class BaseModel
         if (!$this->validate()) {
             return false;
         }
+
+
         
         if ($this->isNew) {
             return $this->insert();
@@ -377,6 +380,8 @@ abstract class BaseModel
                     }, $value);
                 } elseif (!($value instanceof BaseModel) && !is_array($value)) {
                     $data[$propertyName] = $value;
+                } else {
+                    // Throwable. 
                 }
             }
         }
@@ -391,7 +396,11 @@ abstract class BaseModel
     {
         $relations = $this->getRelations();
         foreach (array_keys($relations) as $relationKey) {
-            unset($data[$relationKey]);
+            $relationType = $relations[$relationKey]['type'];
+            if ($relationType !== 'one') {
+                // Todo: nested saving is here prohibited, but should later be possible
+                unset($data[$relationKey]);
+            }
         }
         return $data;
     }
@@ -442,6 +451,17 @@ abstract class BaseModel
     protected function getRelations(): array
     {
         return [];
+    }
+
+    /**
+     * Get primary key.
+     */
+    public function pk(): string
+    {
+        if ($this->isNew) {
+            return '';
+        }
+        return (string) $this->uid;
     }
     
     /**
